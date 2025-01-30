@@ -1,5 +1,9 @@
 from langsmith import traceable
 from tavily import TavilyClient
+import os
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
 
 def deduplicate_and_format_sources(search_response, max_tokens_per_source, include_raw_content=True):
     """
@@ -85,7 +89,7 @@ def tavily_search(query, include_raw_content=True, max_results=3):
                 - content (str): Snippet/summary of the content
                 - raw_content (str): Full content of the page if available"""
      
-    tavily_client = TavilyClient()
+    tavily_client = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
     return tavily_client.search(query, 
                          max_results=max_results, 
                          include_raw_content=include_raw_content)
